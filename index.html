@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Payment Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#ffffff;
+    --paper:#F5FBF7;
+    --ink:#0B1F17;
+    --muted:#5B7268;
+    --line:#DFEEE6;
+    --green-900:#083322;
+    --green-700:#0E7C4A;
+    --green-600:#129457;
+    --green-500:#1AAE67;
+    --green-100:#E4F5EC;
+    --shadow: 0 1px 2px rgba(8,51,34,0.04), 0 12px 32px -12px rgba(8,51,34,0.14);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+
+  body{
+    font-family:'Manrope', sans-serif;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #ECFBF3 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    padding:32px 16px 56px;
+  }
+
+  .wrap{ max-width:720px; margin:0 auto; }
+
+  header{ text-align:center; margin-bottom:32px; }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--green-700);
+    background:var(--green-100);
+    padding:6px 14px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  .badge svg{ width:12px; height:12px; }
+
+  h1{
+    font-family:'Outfit', sans-serif;
+    font-weight:700;
+    font-size:clamp(26px, 5vw, 36px);
+    margin:0 0 8px;
+    letter-spacing:-0.02em;
+    color:var(--green-900);
+  }
+
+  header p{
+    margin:0; color:var(--muted); font-size:15px;
+  }
+
+  .section-label{
+    font-family:'Outfit', sans-serif;
+    font-size:13px; font-weight:600; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--green-700);
+    margin:28px 4px 12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{
+    content:''; flex:1; height:1px; background:var(--line);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:14px;
+  }
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card::before{
+    content:'';
+    position:absolute; inset:0 0 auto 0; height:4px;
+    background:linear-gradient(90deg, var(--green-500), var(--green-700));
+    opacity:0; transition:opacity .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 4px 8px rgba(8,51,34,0.06), 0 20px 40px -14px rgba(8,51,34,0.22);
+    border-color:#CDEBDC;
+  }
+  .card:hover::before{ opacity:1; }
+
+  .card-top{
+    display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;
+  }
+
+  .icon{
+    flex-shrink:0;
+    width:46px; height:46px;
+    border-radius:14px;
+    background:var(--green-100);
+    color:var(--green-700);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .icon svg{ width:22px; height:22px; }
+
+  .card-title{
+    font-family:'Outfit', sans-serif;
+    font-weight:700; font-size:17px;
+    color:var(--green-900);
+    margin:2px 0 3px;
+    letter-spacing:-0.01em;
+  }
+  .card-desc{
+    font-size:13.5px; color:var(--muted); line-height:1.4;
+  }
+
+  .code-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    background:var(--paper);
+    border:1px dashed var(--line);
+    border-radius:12px;
+    padding:11px 12px;
+    margin-top:4px;
+  }
+
+  .code-text{
+    font-family:'Outfit', sans-serif;
+    font-size:14px;
+    font-weight:600;
+    color:var(--green-900);
+    letter-spacing:0.01em;
+    word-break:break-all;
+  }
+  .code-label{
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--muted); font-weight:700; display:block; margin-bottom:2px;
+  }
+
+  .copy-btn{
+    flex-shrink:0;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'Manrope', sans-serif;
+    font-weight:700; font-size:13px;
+    color:var(--white);
+    background:var(--green-700);
+    border:none; border-radius:10px;
+    padding:9px 13px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .copy-btn svg{ width:14px; height:14px; }
+  .copy-btn:hover{ background:var(--green-600); }
+  .copy-btn:active{ transform:scale(0.95); }
+  .copy-btn.copied{ background:var(--green-900); }
+
+  footer{ margin-top:36px; text-align:center; }
+
+  .wa-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    width:100%;
+    font-family:'Outfit', sans-serif;
+    font-weight:600; font-size:15.5px;
+    color:var(--white);
+    background:var(--green-900);
+    border:none; border-radius:16px;
+    padding:16px 20px;
+    text-decoration:none;
+    box-shadow:var(--shadow);
+    transition:background .18s ease, transform .15s ease;
+  }
+  .wa-btn:hover{ background:#0A2A1B; transform:translateY(-2px); }
+  .wa-btn svg{ width:20px; height:20px; flex-shrink:0; }
+
+  .fine{
+    margin-top:12px; font-size:12px; color:var(--muted);
+  }
+
+  .toast{
+    position:fixed;
+    left:50%; bottom:26px;
+    transform:translate(-50%, 20px);
+    background:var(--green-900);
+    color:var(--white);
+    font-family:'Manrope', sans-serif;
+    font-weight:600; font-size:13.5px;
+    padding:12px 20px;
+    border-radius:999px;
+    display:flex; align-items:center; gap:8px;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    box-shadow:0 10px 30px -8px rgba(8,51,34,0.5);
+    z-index:50;
+  }
+  .toast svg{ width:16px; height:16px; color:var(--green-500); }
+  .toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+  @media (max-width:420px){
+    body{ padding:24px 12px 48px; }
+    .card{ padding:17px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+    <header>
+      <span class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+        Secure Payment
+      </span>
+      <h1>Choose Your Payment Method</h1>
+      <p>Select an option below to view details and complete your payment.</p>
+    </header>
+
+    <div class="section-label">Mobile Money</div>
+    <div class="grid" id="mobile-grid"></div>
+
+    <div class="section-label">Bank Transfer</div>
+    <div class="grid" id="bank-grid"></div>
+
+    <footer>
+      <a class="wa-btn" id="wa-link" href="https://wa.me/252637701678" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.107 3 3.5 8.607 3.5 15.5c0 2.29.615 4.435 1.688 6.284L3.5 29l7.386-1.94A12.44 12.44 0 0 0 16 28c6.894 0 12.5-5.607 12.5-12.5S22.894 3 16.001 3zm0 22.75a10.2 10.2 0 0 1-5.204-1.424l-.373-.222-4.383 1.151 1.17-4.271-.243-.44a10.19 10.19 0 0 1-1.518-5.344c0-5.652 4.6-10.25 10.25-10.25S26.25 9.848 26.25 15.5 21.652 25.75 16 25.75zm5.61-7.63c-.307-.154-1.815-.895-2.096-.998-.28-.103-.484-.154-.688.154-.204.307-.79.997-.968 1.202-.178.204-.357.23-.663.077-.307-.154-1.296-.478-2.47-1.523-.913-.814-1.53-1.82-1.708-2.127-.178-.307-.019-.473.135-.626.138-.138.307-.358.46-.537.154-.18.204-.307.307-.512.102-.204.05-.384-.026-.537-.077-.154-.688-1.658-.943-2.27-.248-.596-.5-.515-.688-.524l-.586-.01c-.204 0-.537.076-.818.384-.28.307-1.07 1.045-1.07 2.55 0 1.503 1.096 2.957 1.249 3.161.153.204 2.157 3.294 5.226 4.618.73.315 1.3.503 1.744.643.733.233 1.4.2 1.927.121.588-.088 1.815-.742 2.07-1.459.256-.716.256-1.33.18-1.458-.077-.128-.281-.205-.588-.359z"/></svg>
+        Chat with us on WhatsApp
+      </a>
+      <p class="fine">Tap any card to copy its code, or use the copy button directly.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+    <span id="toast-text">Copied to clipboard</span>
+  </div>
+
+<script>
+  const phoneIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>`;
+  const bankIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M4 10v9M9 10v9M15 10v9M20 10v9"/><path d="M2 21h20"/></svg>`;
+  const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>`;
+
+  const mobileMoney = [
+    { name:"ZAAD", desc:"Pay using ZAAD Mobile Money.", label:"USSD Code", value:"*880*0637701678*AMOUNT#", copyLabel:"Copy USSD Code" },
+    { name:"E-DAHAB", desc:"Pay using E-Dahab.", label:"USSD Code", value:"*110*0657991613*AMOUNT#", copyLabel:"Copy USSD Code" },
+    { name:"MERCHANT", desc:"Merchant Payment.", label:"USSD Code", value:"*883*479504*AMOUNT#", copyLabel:"Copy USSD Code" },
+  ];
+
+  const banks = [
+    { name:"DAHABSHIIL BANK", desc:"Local bank transfer.", label:"Account", value:"Bord8038", copyLabel:"Copy Account Number" },
+    { name:"INTERNATIONAL DAHABSHIIL BANK", desc:"International bank transfer.", label:"Account Number", value:"204018839001", copyLabel:"Copy Account Number" },
+    { name:"AMAL BANK", desc:"Local bank transfer.", label:"Account Number", value:"320104981983", copyLabel:"Copy Account Number" },
+    { name:"PREMIER BANK", desc:"Local bank transfer.", label:"Account Number", value:"160-849172-001", copyLabel:"Copy Account Number" },
+  ];
+
+  function cardHTML(item, icon){
+    return `
+      <div class="card" data-value="${item.value}">
+        <div class="card-top">
+          <div class="icon">${icon}</div>
+          <div>
+            <div class="card-title">${item.name}</div>
+            <div class="card-desc">${item.desc}</div>
+          </div>
+        </div>
+        <div class="code-row">
+          <div>
+            <span class="code-label">${item.label}</span>
+            <span class="code-text">${item.value}</span>
+          </div>
+          <button class="copy-btn" type="button" data-value="${item.value}">
+            ${copyIcon}<span>${item.copyLabel.replace('Copy ','')}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('mobile-grid').innerHTML = mobileMoney.map(m => cardHTML(m, phoneIcon)).join('');
+  document.getElementById('bank-grid').innerHTML = banks.map(b => cardHTML(b, bankIcon)).join('');
+
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  let toastTimer;
+
+  function showToast(msg){
+    toastText.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
+  }
+
+  function copyValue(value, btn){
+    const doCopy = () => {
+      if(btn){
+        const original = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = `${copyIcon}<span>Copied!</span>`;
+        setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML = original; }, 1400);
+      }
+      showToast('Copied: ' + value);
+    };
+
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(value).then(doCopy).catch(()=> fallbackCopy(value, doCopy));
+    } else {
+      fallbackCopy(value, doCopy);
+    }
+  }
+
+  function fallbackCopy(value, cb){
+    const ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    cb();
+  }
+
+  document.querySelectorAll('.copy-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      copyValue(btn.getAttribute('data-value'), btn);
+    });
+  });
+
+  document.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const btn = card.querySelector('.copy-btn');
+      copyValue(card.getAttribute('data-value'), btn);
+    });
+  });
+</script>
+</body>
+</html>
